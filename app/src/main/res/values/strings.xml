@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Learning</string>
+    <string name="edit_text_hint">Ingrese su nombre</string>
+    <string name="button_change_content">Cambiar</string>
+    <string name="button_new_screen">Nuevo</string>
+    <string name="title_activity_new">Nueva Actividad</string>
+    <string name="addURL_Label">Ingrese una URL</string>
+    <string name="download_Label">DESCARGAR</string>
+    <string name="download_content_label">Contenido descargado</string>
+</resources>

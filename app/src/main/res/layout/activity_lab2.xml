@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Lab2Activity"
+    android:orientation="vertical"
+    android:gravity="center|top">
+
+    <TextView
+        android:id="@+id/labelURL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addURL_Label"
+        android:textSize="20dp"
+        android:textAlignment="center"/>
+
+    <EditText
+        android:id="@+id/txtURL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:text="https://www.google.com/"/>
+
+    <Button
+        android:id="@+id/downloadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/download_Label"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary">
+    </View>
+
+    <TextView
+        android:id="@+id/labelDownloadContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/download_content_label"
+        android:textSize="20dp"
+        android:textAlignment="center"/>
+
+    <EditText
+        android:id="@+id/txtDownloadedContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="text"/>
+</LinearLayout>
