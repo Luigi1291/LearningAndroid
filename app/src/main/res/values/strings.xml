@@ -7,4 +7,5 @@
     <string name="addURL_Label">Ingrese una URL</string>
     <string name="download_Label">DESCARGAR</string>
     <string name="download_content_label">Contenido descargado</string>
+    <string name="async_download_Label">Descarga Async</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.example.learning;
 
+import android.app.ProgressDialog;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +26,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Lab2Activity extends AppCompatActivity {
+
+    private static String TAG="Lab2Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,24 +41,95 @@ public class Lab2Activity extends AppCompatActivity {
 
     private void setupUI(){
         Button mButton = (Button) findViewById(R.id.downloadButton);
-
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText mUrl = (EditText) findViewById(R.id.txtURL);
+                startDownloadUrl();
+            }
+        });
 
+        Button mAsyncButton= (Button) findViewById(R.id.downloadAsyncButton);
+        mAsyncButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if(hasInternetAccess()) {
-                    try {
-                        getURLContent(mUrl.getText().toString());
-                    } catch (IOException e) {
-                        Toast.makeText(getApplicationContext(), "Error durante la descarga", Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
+                    String url = ((EditText) findViewById(R.id.txtURL)).getText().toString();
+                    DownloadWebPageTask task = new DownloadWebPageTask();
+                    task.execute(new String[] { url });
                 }
                 else
                     Toast.makeText(getApplicationContext(), "No Hay Conexion a Internet", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void startDownloadUrl(){
+        EditText mUrl = (EditText) findViewById(R.id.txtURL);
+
+        if(hasInternetAccess()) {
+            try {
+                getURLContent(mUrl.getText().toString());
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Error durante la descarga", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
+        else
+            Toast.makeText(getApplicationContext(), "No Hay Conexion a Internet", Toast.LENGTH_SHORT).show();
+    }
+
+    private class DownloadWebPageTask extends AsyncTask<String, Void, String>{
+        //Download Progress Bar
+        private ProgressDialog mProgress;
+
+        @Override
+        protected String doInBackground(String... url) {
+            OkHttpClient client = new OkHttpClient();
+            Request request = null;
+
+            try{
+                request = new Request
+                        .Builder()
+                        .url(url[0])
+                        .build();
+            } catch (Exception e){
+                Log.i(TAG,"error in the URL");
+                return "Download failed";
+            }
+
+            Response response = null;
+            try{
+                response = client.newCall(request).execute();
+                if(response.isSuccessful()){
+                    return response.body().string();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            mProgress = new ProgressDialog(Lab2Activity.this);
+            //Evita cancelar el loading
+            mProgress.setCancelable(false);
+
+            mProgress.setMessage("Downloading website content");
+            mProgress.show();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            startDownloadUrl();
+
+            mProgress.dismiss();
+        }
     }
 
     public boolean hasInternetAccess(){

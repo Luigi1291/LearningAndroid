@@ -20,13 +20,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:text="https://www.google.com/"/>
+        android:text="https://www.facebook.com/"/>
 
     <Button
         android:id="@+id/downloadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/download_Label"/>
+
+    <Button
+        android:id="@+id/downloadAsyncButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/async_download_Label"/>
 
     <View
         android:layout_width="match_parent"
@@ -46,5 +52,6 @@
         android:id="@+id/txtDownloadedContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:inputType="text"/>
+        android:gravity="center|top"
+        android:inputType="textMultiLine"/>
 </LinearLayout>
